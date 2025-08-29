@@ -74,9 +74,5 @@ class gen:
             }
         sequence = self.transcribe()
         bases = [sequence[base:base+3] for base in range(0, len(sequence), 3)]
-        aminoacids = ""
-        for codon in bases:
-            if codon in genetic_code: aminoacids += genetic_code[codon]
-            else: aminoacids += 'X'
-        return aminoacids
+        return "".join([genetic_code[codon] if codon in genetic_code else "X" for codon in bases])
 
