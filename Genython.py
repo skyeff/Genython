@@ -80,5 +80,3 @@ class gen:
             else: aminoacids += 'X'
         return aminoacids
 
-genome = gen("MycGen.fasta")
-print(genome.translate())
