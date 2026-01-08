@@ -1,6 +1,5 @@
 class gen:
-    def __init__(self, file):
-        self.file = file
+    def __init__(self, file): self.file = file
 
     def seq(self):
         with open(self.file, 'r') as file:
@@ -16,18 +15,15 @@ class gen:
             if base in counts: counts[base] += 1
         return counts
         
-
     def complement(self):
         complement_map = {'A':'T', 'T':'A', 'C':'G', 'G':'C'}
         return "".join([complement_map[base] for base in self.seq() if base in complement_map])
 
-    def transcribe(self):
-        return "".join(map(lambda base: 'U' if base == 'T' else base, self.seq())) 
-
+    def transcribe(sequence): return "".join(map(lambda base: 'U' if base == 'T' else base, sequence)) 
 
     def reverse(self): return self.seq()[::-1]
 
-    def translate(self):
+    def translate(sequence):
         genetic_code = {
             # Fenilalanina (F)
             'UUU': 'F', 'UUC': 'F',
@@ -72,7 +68,15 @@ class gen:
             # Glicina (G)
             'GGU': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
             }
-        sequence = self.transcribe()
-        bases = [sequence[base:base+3] for base in range(0, len(sequence), 3)]
-        return "".join([genetic_code[codon] if codon in genetic_code else "X" for codon in bases])
+
+        sequence = sequence[sequence.find('AUG'):]
+            bases = [sequence[i:i+3] for i in range(0, len(sequence), 3)]
+            protein = []
+            for codon in bases:
+                if genetic_code.get(codon, "X") == "*" : break
+                protein.append(genetic_code.get(codon, "X"))
+
+    def contentCG(self):
+        sequence = self.seq()
+        return ((sequence.count('G')  + sequence.count('C'))/ len(sequence)) * 100 if len(sequence) > 0 else 0.0
 
